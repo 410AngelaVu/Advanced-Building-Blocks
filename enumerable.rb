@@ -16,4 +16,13 @@ module Enumerable
       i += 1
     end
   end
+
+  def my_select
+    b = []
+    to_a.my_each do |i|
+      b.push i  if yield i
+    end
+    b
+  end
+
 end
