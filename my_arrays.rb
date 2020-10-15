@@ -4,5 +4,8 @@ require_relative './enumerable.rb'
 
 %i[1 2 3 4 5].my_each_with_index { |n| puts n }
 
-arry = (%w[what is happening here].my_select { |n| n != 'is'}) 
-puts arry 
+arry = (%w[what is happening here].my_select { |n| n != 'is' })
+puts arry
+
+puts(%w[ant bear cat].my_all? { |word| word.length >= 3 })
+puts(%w[ant bear cat].my_all? { |word| word.length >= 4 })

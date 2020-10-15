@@ -20,9 +20,18 @@ module Enumerable
   def my_select
     b = []
     to_a.my_each do |i|
-      b.push i  if yield i
+      b.push i if yield i
     end
     b
   end
 
+  def my_all?
+    result = true
+    if to_a.is_a?(Array)
+      to_a.my_each { |item| result = false unless yield(item) }
+    elsif to_a.is_a?(Hash)
+      to_a.my_each { |k, v| result = false unless yield(k, v) }
+    end
+    result
+  end
 end
