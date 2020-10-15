@@ -5,7 +5,6 @@ module Enumerable
       yield to_a[i]
       i += 1
     end
-    self
   end
 
   def my_each_with_index
@@ -38,22 +37,26 @@ module Enumerable
   def my_any?
     result = false
     if to_a.is_a?(Array)
-      to_a.my_each { |item| result = true if yield(item)}
+      to_a.my_each { |item| result = true if yield(item) }
     elsif to_a.is_a?(Hash)
-      to_a.my_each { |k, v| result = true if yield(k, v)}
-end
-result
-end
-
-def my_none?
-  result = true
-  if to_a.is_a?(Array)
-    to_a.my_any? { |item| result = false if yield(item)}
-  elsif to_a.is_a? (Hash)
-    to_a.my_any? { |k, v| result = false if yield(k, v)}
+      to_a.my_each { |k, v| result = true if yield(k, v) }
+    end
+    result
   end
-  result
-end
 
+  def my_none?
+    result = true
+    if to_a.is_a?(Array)
+      to_a.my_any? { |item| result = false if yield(item) }
+    elsif to_a.is_a?(Hash)
+      to_a.my_any? { |k, v| result = false if yield(k, v) }
+    end
+    result
+  end
 
+  def my_count(xyz = nil)
+    counter = 0
+    to_a.my_each { |item| counter += 1 if item == xyz || xyz.nil? }
+    counter
+  end
 end

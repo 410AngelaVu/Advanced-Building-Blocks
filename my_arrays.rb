@@ -16,3 +16,6 @@ puts(%w[ant bear cat].my_any? { |word| word.length >= 4 })
 puts(%w[ant bear cat].my_none? { |word| word.length >= 5 })
 puts(%w[ant bear cat].my_none? { |word| word.length >= 4 })
 
+ary = [0, 2, 4, 2]
+puts ary.my_count
+puts ary.my_count(2)
