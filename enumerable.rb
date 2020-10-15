@@ -34,4 +34,26 @@ module Enumerable
     end
     result
   end
+
+  def my_any?
+    result = false
+    if to_a.is_a?(Array)
+      to_a.my_each { |item| result = true if yield(item)}
+    elsif to_a.is_a?(Hash)
+      to_a.my_each { |k, v| result = true if yield(k, v)}
+end
+result
+end
+
+def my_none?
+  result = true
+  if to_a.is_a?(Array)
+    to_a.my_any? { |item| result = false if yield(item)}
+  elsif to_a.is_a? (Hash)
+    to_a.my_any? { |k, v| result = false if yield(k, v)}
+  end
+  result
+end
+
+
 end

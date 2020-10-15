@@ -9,3 +9,10 @@ puts arry
 
 puts(%w[ant bear cat].my_all? { |word| word.length >= 3 })
 puts(%w[ant bear cat].my_all? { |word| word.length >= 4 })
+
+puts(%w[ant bear cat].my_any? { |word| word.length >= 3 })
+puts(%w[ant bear cat].my_any? { |word| word.length >= 4 })
+
+puts(%w[ant bear cat].my_none? { |word| word.length >= 5 })
+puts(%w[ant bear cat].my_none? { |word| word.length >= 4 })
+
