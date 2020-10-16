@@ -59,4 +59,14 @@ module Enumerable
     to_a.my_each { |item| counter += 1 if item == xyz || xyz.nil? }
     counter
   end
+
+  def my_map(proc = nil)
+    arr = []
+    if proc.nil?
+      to_a.my_each { |item| arr << yield(item) }
+    else
+      to_a.my_each { |item| arr << proc.call(item) }
+    end
+    arr
+  end
 end

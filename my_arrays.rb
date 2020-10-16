@@ -19,3 +19,8 @@ puts(%w[ant bear cat].my_none? { |word| word.length >= 4 })
 ary = [0, 2, 4, 2]
 puts ary.my_count
 puts ary.my_count(2)
+
+a = [1, 2, 3]
+puts(a.my_map { |n| n * 2 })
+increment = proc { |n| n + 1 }
+puts(a.my_map(increment))
