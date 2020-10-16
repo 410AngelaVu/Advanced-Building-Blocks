@@ -69,4 +69,15 @@ module Enumerable
     end
     arr
   end
+
+  def my_inject(acc = nil)
+    acc = to_a[0] if acc.nil?
+    result = acc
+    to_a.my_each { |item| result = yield(result, item) }
+    result
+  end
+end
+
+def multiply_els(arr)
+  arr.my_inject(1) { |item, total| total * item }
 end

@@ -24,3 +24,13 @@ a = [1, 2, 3]
 puts(a.my_map { |n| n * 2 })
 increment = proc { |n| n + 1 }
 puts(a.my_map(increment))
+
+puts((5..10).my_inject(0) { |sum, n| sum + n })
+puts((5..10).my_inject(1) { |product, n| product * n })
+(longest = %w[cat sheep bear].my_inject do |memo, word|
+  memo.length > word.length ? memo : word
+end)
+puts longest
+
+c = [1, 2, 3, 4]
+p multiply_els(c)
