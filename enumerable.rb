@@ -1,66 +1,102 @@
+# rubocop:disable Style/For, Style/MultipleComparison, Metrics/AbcSize
+# rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/ModuleLength, Metrics/MethodLength
+
 module Enumerable
   def my_each
-    i = 0
-    while i < to_a.length
-      yield to_a[i]
-      i += 1
+    return to_enum unless block_given?
+
+    n = 0
+    while n < length
+      yield(self[n]) if is_a?(Array)
+      yield(keys[n], self[keys[n]]) if is_a?(Hash)
+      yield(self[n]) if is_a?(Range)
+      n += 1
     end
+    self
   end
 
-  def my_each_with_index
-    i = 0
-    index = 0
-    while i < to_a.length
-      yield i, index
-      i += 1
+  def my_each_with_index(&block)
+    return to_enum(:my_each_with_index) unless block_given?
+
+    n = 0
+    while n < length
+      block.call(self[n], n) if is_a?(Array)
+      block.call(keys[n], self[keys[n]]) if is_a?(Hash)
+      block.call(self[n]) if is_a?(Range)
+      n += 1
     end
+    self
   end
 
   def my_select
-    b = []
-    to_a.my_each do |i|
-      b.push i if yield i
-    end
-    b
-  end
+    return to_enum(:my_select) unless block_given?
 
-  def my_all?
-    result = true
-    if to_a.is_a?(Array)
-      to_a.my_each { |item| result = false unless yield(item) }
-    elsif to_a.is_a?(Hash)
-      to_a.my_each { |k, v| result = false unless yield(k, v) }
+    if is_a?(Array)
+      result = []
+      my_each { |element| result << element if yield(element) }
+
+    elsif is_a?(Hash)
+      result = {}
+      my_each { |e_key, e_value| result[e_key] = e_value if yield(e_key, e_value) }
     end
     result
   end
 
-  def my_any?
-    result = false
-    if to_a.is_a?(Array)
-      to_a.my_each { |item| result = true if yield(item) }
-    elsif to_a.is_a?(Hash)
-      to_a.my_each { |k, v| result = true if yield(k, v) }
+  def my_all?(param = nil)
+    if block_given?
+      to_a.my_each { |item| return false if yield(item) == false }
+      return true
+    elsif param.nil?
+      to_a.my_each { |item| return false if item.nil? || item == false }
+    elsif !param.nil? && (param.is_a? Class)
+      to_a.my_each { |item| return false unless [item.class, item.class.superclass].include?(param) }
+    elsif !param.nil? && param.class == Regexp
+      to_a.my_each { |item| return false unless param.match(item) }
+    else
+      to_a.my_each { |item| return false if item != param }
     end
-    result
+    true
   end
 
-  def my_none?
-    result = true
-    if to_a.is_a?(Array)
-      to_a.my_any? { |item| result = false if yield(item) }
-    elsif to_a.is_a?(Hash)
-      to_a.my_any? { |k, v| result = false if yield(k, v) }
+  def my_any?(param = nil)
+    if block_given?
+      to_a.my_each { |item| return true if yield(item) }
+      return false
+    elsif param.nil?
+      to_a.my_each { |item| return true if item }
+    elsif !param.nil? && (param.is_a? Class)
+      to_a.my_each { |item| return true if [item.class, item.class.superclass].include?(param) }
+    elsif !param.nil? && param.class == Regexp
+      to_a.my_each { |item| return true if param.match(item) }
+    else
+      to_a.my_each { |item| return true if item == param }
     end
-    result
+    false
   end
 
-  def my_count(xyz = nil)
-    counter = 0
-    to_a.my_each { |item| counter += 1 if item == xyz || xyz.nil? }
-    counter
+  def my_none?(param = nil)
+    if block_given?
+      !my_any?(&Proc.new)
+    else
+      !my_any?(param)
+    end
+  end
+
+  def my_count(param = nil)
+    f = 0
+    if block_given?
+      to_a.my_each { |item| f += 1 if yield(item) }
+    elsif !block_given? && param.nil?
+      f = to_a.length
+    else
+      f = to_a.my_select { |item| item == param }.length
+    end
+    f
   end
 
   def my_map(proc = nil)
+    return to_enum(:my_map) unless block_given? || !proc.nil?
+
     arr = []
     if proc.nil?
       to_a.my_each { |item| arr << yield(item) }
@@ -70,14 +106,23 @@ module Enumerable
     arr
   end
 
-  def my_inject(acc = nil)
-    acc = to_a[0] if acc.nil?
-    result = acc
-    to_a.my_each { |item| result = yield(result, item) }
-    result
+  def my_inject(initial = nil, sym = nil)
+    if (!initial.nil? && sym.nil?) && (initial.is_a?(Symbol) || initial.is_a?(String))
+      sym = initial
+      initial = nil
+    end
+    if !block_given? && !sym.nil?
+      to_a.my_each { |item| initial = initial.nil? ? item : initial.send(sym, item) }
+    else
+      to_a.my_each { |item| initial = initial.nil? ? item : yield(initial, item) }
+    end
+    initial
   end
 end
 
 def multiply_els(arr)
   arr.my_inject(1) { |item, total| total * item }
 end
+
+# rubocop:enable Style/For, Style/MultipleComparison, Metrics/AbcSize
+# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/ModuleLength, Metrics/MethodLength
