@@ -17,7 +17,7 @@ puts hash.my_each(&block)
 
 block = proc { |num| num < 4 }
 range = (5..50)
-puts range.each(&block)
+puts range.my_each(&block)
 
 array = [6, 1, 5, 2, 0, 1, 5, 4, 0, 7,
          3, 0, 4, 2, 3, 6, 3, 3, 1, 7, 7, 4,
@@ -30,6 +30,10 @@ array = [6, 1, 5, 2, 0, 1, 5, 4, 0, 7,
          6, 0, 5, 3, 3, 4]
 puts array.my_each_with_index.is_a?(Enumerator)
 
+block = proc { |num| num < 4 }
+range = (5..50)
+puts range.my_each_with_index(&block)
+
 array = [6, 1, 5, 2, 0, 1, 5, 4, 0, 7,
          3, 0, 4, 2, 3, 6, 3, 3, 1, 7, 7, 4,
          2, 8, 4, 4, 5, 2, 0, 2, 1, 0, 8, 0,
@@ -41,11 +45,15 @@ array = [6, 1, 5, 2, 0, 1, 5, 4, 0, 7,
          6, 0, 5, 3, 3, 4]
 puts array.my_select.is_a?(Enumerator)
 
+block = proc { |num| num < 4 }
+range = (5..50)
+puts range.my_select(&block)
+
 true_array = [1, true, 'hi', []]
-puts true_array.all?
+puts true_array.my_all?
 
 false_array = [1, false, 'hi', []]
-puts false_array.all?
+puts false_array.my_all?
 
 array = [6, 1, 5, 2, 0, 1, 5, 4, 0, 7,
          3, 0, 4, 2, 3, 6, 3, 3, 1, 7, 7, 4,
@@ -62,7 +70,7 @@ numbers = [1, 2i, 3.14]
 puts numbers.my_all?(Numeric)
 
 words = %w[dog door rod blade]
-puts words.all?(/d/)
+puts words.my_all?(/d/)
 
 words = %w[dog door rod blade]
 puts words.my_all?(/o/)
@@ -79,10 +87,10 @@ array = [6, 1, 5, 2, 0, 1, 5, 4, 0, 7,
 puts array.my_all?(3)
 
 true_array = [nil, false, true, []]
-puts true_array.any?
+puts true_array.my_any?
 
 false_array = [nil, false, nil, false]
-puts false_array.any?
+puts false_array.my_any?
 
 array = [6, 1, 5, 2, 0, 1, 5, 4, 0, 7,
          3, 0, 4, 2, 3, 6, 3, 3, 1, 7, 7, 4,
@@ -99,7 +107,7 @@ words = %w[dog door rod blade]
 puts words.my_any?(Integer)
 
 false_array = [nil, false, nil, false]
-puts false_array.none?
+puts false_array.my_none?
 
 array = [6, 1, 5, 2, 0, 1, 5, 4, 0, 7,
          3, 0, 4, 2, 3, 6, 3, 3, 1, 7, 7, 4,
@@ -161,7 +169,7 @@ array = [2, 8, 6, 0, 8, 3, 2, 5, 8, 4, 6,
          6, 4, 3, 6, 5, 8, 2, 6, 2, 0, 0,
          1, 1, 1, 0, 5, 1, 1, 0, 2, 7, 6,
          0, 4, 5, 7, 5, 5, 7, 1, 1, 7, 3, 1]
-puts array.inject(:+)
+puts array.my_inject(:+)
 
 range = Range.new(5, 50)
 puts range.my_inject(:*)

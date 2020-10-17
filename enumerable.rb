@@ -5,10 +5,10 @@ module Enumerable
     return to_enum unless block_given?
 
     n = 0
-    while n < length
+    while n < to_a.length
       yield(self[n]) if is_a?(Array)
       yield(keys[n], self[keys[n]]) if is_a?(Hash)
-      yield(self[n]) if is_a?(Range)
+      yield(to_a[n]) if is_a?(Range)
       n += 1
     end
     self
@@ -18,10 +18,10 @@ module Enumerable
     return to_enum(:my_each_with_index) unless block_given?
 
     n = 0
-    while n < length
+    while n < to_a.length
       block.call(self[n], n) if is_a?(Array)
       block.call(keys[n], self[keys[n]]) if is_a?(Hash)
-      block.call(self[n]) if is_a?(Range)
+      block.call(to_a[n]) if is_a?(Range)
       n += 1
     end
     self
@@ -30,7 +30,7 @@ module Enumerable
   def my_select
     return to_enum(:my_select) unless block_given?
 
-    if is_a?(Array)
+    if is_a?(Array) || is_a?(Range)
       result = []
       my_each { |element| result << element if yield(element) }
 
