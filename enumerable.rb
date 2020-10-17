@@ -1,5 +1,4 @@
-# rubocop:disable Style/For, Style/MultipleComparison, Metrics/AbcSize
-# rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/ModuleLength, Metrics/MethodLength
+# rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/ModuleLength,
 
 module Enumerable
   def my_each
@@ -123,6 +122,4 @@ end
 def multiply_els(arr)
   arr.my_inject(1) { |item, total| total * item }
 end
-
-# rubocop:enable Style/For, Style/MultipleComparison, Metrics/AbcSize
-# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/ModuleLength, Metrics/MethodLength
+# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/ModuleLength,
