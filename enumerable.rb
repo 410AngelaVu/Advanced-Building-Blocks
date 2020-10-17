@@ -7,7 +7,7 @@ module Enumerable
     n = 0
     while n < to_a.length
       yield(self[n]) if is_a?(Array)
-      yield(keys[n], [keys[n]]) if is_a?(Hash)
+      yield([keys[n], values[n]]) if is_a?(Hash)
       yield(to_a[n]) if is_a?(Range)
       n += 1
     end
@@ -20,7 +20,7 @@ module Enumerable
     n = 0
     while n < to_a.length
       block.call(self[n], n) if is_a?(Array)
-      block.call(keys[n], [keys[n]]) if is_a?(Hash)
+      yield([keys[n], values[n]]) if is_a?(Hash)
       block.call(to_a[n]) if is_a?(Range)
       n += 1
     end

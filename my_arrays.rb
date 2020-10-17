@@ -30,10 +30,8 @@ array = [6, 1, 5, 2, 0, 1, 5, 4, 0, 7,
          6, 0, 5, 3, 3, 4]
 puts array.my_each_with_index.is_a?(Enumerator)
 
-my_each_output = ''
-block = proc { |num| my_each_output += num.to_s }
-hash = { a: 1, b: 2, c: 3, d: 4, e: 5 }
-puts hash.my_each_with_index(&block)
+h = { foo: 0, bar: 1, baz: 2 }
+puts(h.my_each { |key, value| print "#{key}: #{value}" })
 
 block = proc { |num| num < 4 }
 range = (5..50)
@@ -49,6 +47,9 @@ array = [6, 1, 5, 2, 0, 1, 5, 4, 0, 7,
          0, 2, 0, 0, 6, 7, 5, 3, 4, 2, 3, 6,
          6, 0, 5, 3, 3, 4]
 puts array.my_select.is_a?(Enumerator)
+
+h = { foo: 0, bar: 1, baz: 2 }
+puts(h.my_each_with_index { |key, value| print "#{key}: #{value}" })
 
 block = proc { |num| num < 4 }
 range = (5..50)
