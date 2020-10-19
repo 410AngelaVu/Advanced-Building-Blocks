@@ -40,7 +40,7 @@ puts range.my_each_with_index(&block)
 enum = { a: 1, b: 2, c: 3, d: 4, e: 5 }
 my_each_with_index_output = ''
 block = proc { |num, idx| my_each_with_index_output += "Num: #{num}, idx: #{idx}\n" }
-enum.each_with_index(&block)
+enum.my_each_with_index(&block)
 puts my_each_with_index_output
 
 array = [6, 1, 5, 2, 0, 1, 5, 4, 0, 7,
