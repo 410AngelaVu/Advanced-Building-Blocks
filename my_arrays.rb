@@ -37,6 +37,12 @@ block = proc { |num| num < 4 }
 range = (5..50)
 puts range.my_each_with_index(&block)
 
+enum = { a: 1, b: 2, c: 3, d: 4, e: 5 }
+my_each_with_index_output = ''
+block = proc { |num, idx| my_each_with_index_output += "Num: #{num}, idx: #{idx}\n" }
+enum.each_with_index(&block)
+puts my_each_with_index_output
+
 array = [6, 1, 5, 2, 0, 1, 5, 4, 0, 7,
          3, 0, 4, 2, 3, 6, 3, 3, 1, 7, 7, 4,
          2, 8, 4, 4, 5, 2, 0, 2, 1, 0, 8, 0,

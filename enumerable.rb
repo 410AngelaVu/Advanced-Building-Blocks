@@ -21,7 +21,7 @@ module Enumerable
     while n < to_a.length
       block.call(self[n], n) if is_a?(Array)
       yield([keys[n], values[n]]) if is_a?(Hash)
-      block.call(to_a[n]) if is_a?(Range)
+      block.call(to_a[n], n) if is_a?(Range)
       n += 1
     end
     self
