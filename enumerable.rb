@@ -20,7 +20,7 @@ module Enumerable
     n = 0
     while n < to_a.length
       block.call(self[n], n) if is_a?(Array)
-      block.call(to_a[n], n) if is_a?(Hash)
+      block.call(to_a[n]) if is_a?(Hash)
       block.call(to_a[n], n) if is_a?(Range)
       n += 1
     end
